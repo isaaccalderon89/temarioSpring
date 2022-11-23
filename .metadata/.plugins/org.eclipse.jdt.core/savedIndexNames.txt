@@ -1,0 +1,6 @@
+INDEX VERSION 1.131+D:\Todos los WS de desarrollo de aplicaciones web\temarioSpring\.metadata\.plugins\org.eclipse.jdt.core
+3027075955.index
+717695219.index
+1865797976.index
+595005457.index
+2550525182.index

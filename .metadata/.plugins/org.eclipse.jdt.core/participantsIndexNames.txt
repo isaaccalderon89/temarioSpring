@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+D:\Todos los WS de desarrollo de aplicaciones web\temarioSpring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3338558240.index
+\02_prodcutos_web_spring\src\main\java
+D:\Todos los WS de desarrollo de aplicaciones web\temarioSpring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3717088975.index
+\03_prodcutos_web_spring_urls\src\main\java
