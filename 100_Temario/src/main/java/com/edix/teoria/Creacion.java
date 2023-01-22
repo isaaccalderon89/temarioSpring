@@ -123,6 +123,186 @@ public class Creacion {
 	 * 		*HttpServletResponse. A través de sus métodos podemos generar la respuesta que queremos enviarle al cliente.
 	 * 
 	 * Video https://youtu.be/IX8m13RAZGI
+	 * 
+	 * GENERACION DE PÁGINAS WEB CON CÓDIGO EMBEBIDO: JSP
+	 * --------------------------------------------------
+	 * La respueste de una petición a un servlet temina con la genracion de una ágina HTML. 
+	 * 
+	 * Aquí el servlet tiene dos estrategias:
+	 *  
+	 * 		1- Una primitica que consiste en generar la respuesta directamente en el método service, a través del objeto response, que nos proporciona 
+	 * 			un objeto de la clase PrintWriter.
+	 * 
+	 * 		2- Generar un ficehero con apariencia de fichero HTML, pero incrustando algunas líneas de configuración (denominadas directivas) y código Java
+	 * 			embebido (llamado Scriptless).
+	 * 
+	 * EL OBJETO HTTPSERVLETRESPONSE
+	 * -----------------------------
+	 * Una de las principales tareas que debe realizar un servlet es la generación de respuestas. Este objeto nos ofrecerá los medios para realizar esta tarea
+	 * Además, dispone de una serie de métodos para la construcción y manipulación de la respuesta. 
+	 * 
+	 * 		1. void setContentType(String tipo)
+	 * 			Con este método indicamos el tipo de respuesta que vamos a generar. Esta información se incluirá como parte de la cabecera de la respuesta HTTP 
+	 *  		que se va a enviar al cliente.
+	 *  
+	 *  	2. PrintWriter getWriter()
+	 *  		Mediante este método obtenemos el objeto PrintWriter asociado al canal de respuesta, por lo que la genración de una respuesta desde un servlet se
+	 *  		convierte al final en una operación de entrada y salida normal en Java. 
+	 *  		En el caso de un servlet, el objeto PrintWriter, obtenido a partir del método getWriter() de HttpeServletResponse, apunta al canal de salida que conitene
+	 *  		el cuerpo de la respuesta que se enviará al cliente. 
+	 *  
+	 *  Actividad. Generación de página con mensaje 102_saludo_aumento
+	 *  
+	 *  FUNDAMENTOS DE JSP
+	 *  ------------------
+	 *  Una Java Server Page, o página JSP, es un archivo de texto con extensión .jsp en el que se combinan bloque de texto HTML con código Java. 
+	 *  Es un componete que forma parte de una aplicación web Java EE y, al igual que los servlets, se ejecuta ante la llegada de peticiones desde el navegador cliente, 
+	 *  generando como resultado una página HTML que es enviada en la respuesta HTTP. 
+	 *  Las páginas JSP no son clases Java, sino archivos de texto con extensión .jsp en los que se combinan bloques de texto HTML con bloques de código Java, que se ejecuta en el
+	 *  servidor cuando la página es solicitada. 
+	 *  Los bloques de código Java, también conocidos como scriptlets, se definen dentro de los símbolos <% y %> y pueden aparecer en cualquier paete de la página. 
+	 *  Si viéramos el código fuente recibido por el navegador, no aparecería por ningún sitio el código Java, sino que solo veríamos el HTML resultando de la combinación. 
+	 *  
+	 *  CREACIÓN DE UNA PÁGINA JSP
+	 *  --------------------------
+	 *  Una página JSP forma parte de una aplicación web Java EE. 
+	 *  
+	 *  	1. Las páginas JSP, al igual que los servlets, se incluyen dentro de un proyecto web dinámico. 
+	 *  		hay un ejemplo de tablas de multiplicar dento de 102_saludo_aumento
+	 *  
+	 *  Recordad: toda página JSP es transfornada en un servlet por el servidor de aplicaciones la primera vez que es solicitada.
+	 *  
+	 *  la primera vez que la página JSP es solicitada por un navegador cliente se transforma n un servlet. Este servlet se compila, 
+	 *  se insta y, a aprtir de ahí, el comportamiento sería el mismo que el de cualquier otro servlet.
+	 *  
+	 *  Las restantes peticiones que se pudieran hacer sobre la página serían derivadas por el servidor de aplicaciones directamente al servlet. 
+	 *  Solo se generaría de nuevo el servlet, si el servidor detecta que se ha realizado alún cambio en el contenido de la página.
+	 *  
+	 *  COMPONENTES DE UNA PÁGINA JSP
+	 *  -----------------------------
+	 *  A la hora de construir una página JSP, podemos incluir en ella los siguientes elementos: 
+	 *  
+	 *  1. Boques de texto HTML
+	 *  2. Código embebido
+	 *  	Es el código Java que se ejecuta en el servidor cuando la págia es solicitada. Este código tiene como misión generar de forma dinámica
+	 *  	parte de la página y, como hemos visto, se separa del texto HTML delimitándolo entre los símbolos <% y%>.
+	 *  3. Ojetos implícitos
+	 *  	Objetos creados implícitamente por el servidor de aplicaciones y que están disponibles dentro del código embebido de la página. 
+	 *  	A traves de estos objetos podemos acceder a parámetros, atrubutos...
+	 *  4. Directivas
+	 *  	Órdenes al servidor de aplicaciones, que serán procesadas durante la fase de transformación de la página a servlet. Las directivas se definen
+	 *  	entre los símbolos <%@ y %>.
+	 *  5. Acciones
+	 *  	Una accioón es una llamada a un método de una clase Java definido en algún archivo de librería de acciones. Su particularidad es que esta llamada
+	 *  se realiza utilizando notación de etiquetas en lugar de código Java. 
+	 *  
+	 *  TIPOS DE ESTRUCTURAS DE CÓDIGO EMBEBIDO
+	 *  ---------------------------------------
+	 *  El código embebido se encarga de la generación dinánmica de parte de la página de respuesta.
+	 *  
+	 *  Existen dos opciones de código que podemos incluir: 
+	 *  
+	 *  1. Scriptles 
+	 *  	Se trata de los bloques de código definidos entre los bloques <% y%>. Este código sigue exactamente las mismas reglas sintácticas que el código Java que 
+	 *  	se define dentro de un método de una clase.
+	 *  
+	 *  2. Expresiones JSP
+	 *  	Cuando queremos generar, mediante código Java, un dato que debe ser incluido dentro de la página de respuesta, utilizaremos un bloque de código embebido especial 
+	 *  	conocido como expresión JSP.
+	 *  
+	 *  	La instrucción Java que genera este resultado no debe finalizar en ; (punto y coma). 
+	 *  
+	 *  https://youtu.be/w7sQaMy7364 
+	 *  
+	 *  2.4 CAPTURAS DE DATOS DE USUARIO
+	 *  --------------------------------
+	 *  Gran parte de las tareas de un servlet dependen de los parámetros enviados desde la capa cliente. Estos parámetros pueden enciarse de dos modos: 
+	 *  
+	 *  	* A través de un formulacio de una página web. 
+	 *  	* Insertados en la URL.
+	 *  
+	 *  Tanto el formulario como los controles se construyen a través de una serie de etiquetas que vamos a estudiar.
+	 *  
+	 *  ETIQUETA FORM
+	 *  Vamos a analizar dos atributos importantes que se deberán utilizar en la definición de la etiqueta <form>:
+	 *  	
+	 *  	1. action: Indica la dirección del componente (en nuestro caso, un servlet), que será soliciatada cuando se lance la petición desde el formulario 
+	 *  	
+	 *  	2. method: Establece el método HTTP utilizando en la peticicón. Las peticiones HTTP pueden utilizar varios métodos, aunque en el caso de un formulario
+	 *  				nos limitaremos a los métodos GET y POST. La elección de uno y otor influirá en la manera en que los parámetros son enviados en la trama
+	 *  				HTTP. En el caso de POST, los parámetros viajan en el cuerpo de la petición mientras que en GET se insertan al final de la URL.
+	 *  
+	 *  Los parámetros viajan en forma de parejas nombre=valor, separando cada pareja de la siguiente con un &. En el caso de las peticiones GET,estos parámetros se colocan
+	 *  al final de la URL y a continuación del símbolo de interrogación.
+	 *  
+	 *  CONTROLES HTML
+	 *  --------------
+	 *  Son los componentes gráficos que se emplean para la captura de los datos de usuario y encío de los mismo al servlet. Por cada control, se enviará un parámetro al servlet
+	 *  con el dato recogido. Todas las etiquetas que se emplean para la generación de estos controles disponen de un atributo name, con el que se indica el nombre del parámetro. 
+	 *  
+	 *  A continuación, te mostramos algunos de los controles más utilizados:: 
+	 *  
+	 *  1. Campo de texto
+	 *  Se emplea para solicitar la introducción de un dato al usuario en una única línea. Se utiliza la equiteque <input>, indicando el valor 'text' en su atributo type. 
+	 *  		
+	 *  		Ej: <input type="text" name="dato"/>
+	 *  2. Campo de contraseña
+	 *  Son campos dondelos caracteres introducidos no se visualizan en la página. Se genera también con la etiqueta input, indicando el valor 'pasword' en el atributo type. 
+	 *  
+	 *  3. Caja de texto multilínea
+	 *  Se emplea para que el usuario pueda introducir un texto de varias líneas. Se genera con la etiqueta <textarea></textarea>.
+	 *  
+	 *  4. Caja numérica
+	 *  Su aspecto es el mismo que el de una caja de texto estándar, pero solo permite la introducción de números. Se genera con la etiqueta <input>, indicando en su atributo type
+	 *  el valor 'number'. 
+	 *  
+	 *  5. Botones de radio
+	 *  Se emplean para las selección de opciones excluyentes entre sí. Cada botón de radio se genera con la etiqueta <input>, indicando en su atributo tyoe el valor 'radio'. 
+	 *  Para conseguie que todos los botones del grupo sean excluyentes entre sí, es necesario que todos ellos cuenten con el mismo valor del atributo 'name'. 
+	 *  
+	 *  6. Casillas de verificación 
+	 *  Se emplean para permitir al usuario la elección de opciones en una página. las opciones no son excluyentes entre sí y se permite la selección de multiples opciones. 
+	 *  Se generan con la etiqueta <input>, indicando el valor checkbox en el atributo type. 
+	 *  
+	 *  7. Listas de selección
+	 *  Este control presenta una lista de opciones al usuario, entre las que podrá elegir una o varias. Se genera mediante la etiqueta <select></select>, y cada opción a presentar 
+	 *  se indica a través de la etiqueta <option></option>. El atributo 'value' de cada <option> contiene el valor del parámetro que será enviado al servlet. 
+	 *  
+	 *  8. Botón de envío 
+	 *  Para que se puedan enviar los parámetros recogidos es necesario crear el botón tipo submit. 
+	 *  Se trata de un botón dep ulsación que, cuando se pulsa, lanza la petición de slervlet, cuya direccion se indica en el atributo 'action' del formulario. Dependiendo del valor del atributo 'method'
+	 *  los parámetos con los valores de los diferentes controles se empaquetan en el cuerpo de la petición o en la URL. 
+	 *  
+	 *  RECOGIDA DE PARÁMETROS EN UN SERVLET
+	 *  ------------------------------------
+	 *  Los datos recogidos por un formulario son enviados como parámetros de la petición a un servlet, Veamos cómo el servlet puede acceder a dichos parámetros. 
+	 *  
+	 *  EL OBJETO HTTPSERVLETREQUEST
+	 *  ----------------------------
+	 *  El acceso a los parámetro recibidos en la petición se realiza en un servlet desde el interior del método service(). PAra ello, utilizaremos el objeto HttpServletRequest que el contenedor web nos proporciona
+	 *  en la llamada a este método.
+	 *  
+	 *  La interfaz HttpServletRequest nos proporciona los siguientes métodos para acceder a los parámetros de la petición: 
+	 *  	
+	 *  	* String getParameter (String nombre)
+	 *  
+	 *  Independientemente de que el parámetro haya sido enviado por GET o POST, este método recupera el valor del mismo a partir de su nombre. 
+	 *  Si no se encuentra ningún parámetro con ese nombre, devolverá null. 
+	 *  Ej: string p=request.getParameter("pais"); para recoger el parametro de un pais
+	 *  
+	 *  El parámetro siempre es recogido como un string. 
+	 *  
+	 *  	*String[] getParameterValues (string nombre)
+	 *  
+	 *  Utilizamos este método para parámetros que puedan tener varios valores, como los enviados desde una lista de selección múltiple o un grupo de checkbox.
+	 *  Ej: string[] opciones=reuest.getParameterValues("opcion"); para recoger los valores del grupo checkbox
+	 *  
+	 *  	*Map<String,String[]> getParameterMap()
+	 *  
+	 *  Este método devuelve una colección de tipo Map con todos los parámetros. Cada entrada incluye el nombre del parámetro y un array con los valores del mismo. 
+	 *  Si el parámetro tiene un único valor, el array será de un solo elemento. 
+	 *  
+	 *  
 	 */
 
 }
