@@ -302,6 +302,128 @@ public class Creacion {
 	 *  Este método devuelve una colección de tipo Map con todos los parámetros. Cada entrada incluye el nombre del parámetro y un array con los valores del mismo. 
 	 *  Si el parámetro tiene un único valor, el array será de un solo elemento. 
 	 *  
+	 *  OTROS DATOS ENVIADOS EN UNA PETICIÓN
+	 *  ------------------------------------
+	 *  Además de lo visto anteriormente, es posible enviar parámetros al servlet sin que tengan que ser introducidos o seleccionados por un usuario meniante formulario
+	 *  
+	 *  PARÁMETROS EN LA URL 
+	 *  --------------------
+	 *  Una forma de enviar datos desde una página al servlet, sin introducirlos explícitamente por un usuario, es insertando estos datos en la URL. 
+	 *  
+	 *  Los datos se incluirán como parámetro en las URL:
+	 *  
+	 *  	* Los enlaces, es decir, en el atributo 'href'. 
+	 *  	* En las de los action de los propios formularios.
+	 *  
+	 *  La manera en la que se recogerían estos parámetros desde el servlet sería la misma que en el caso de los parámetros enviados desde un formulario, con el método getParameter()
+	 *  de HttpServletRequest:
+	 *  
+	 *  IMPORTANTE:el método getParameter() de request devuelve siempre String. Integer.parseInt(), Double.parseDouble().
+	 *  
+	 *  En el caso de las fechas, estas también viajan al servlet como String con formato 'yyyy-mm-dd' hay que aplicar alguno de los mecanismos de conversión a la clase de fecha 
+	 *  
+	 *  
+	 *  ENCABEZADOS DE LA PETICIÓN
+	 *  --------------------------
+	 *  Además de los parámetros recogidos desde la página web, en cada peticicón al navegador envía al servidor una serie de datos dentro de la cabecera HTTP, datos que contienen 
+	 *  infomración diversa sobre el cliente, como el tipo de navegador utilizado, el tipo de datos que acepta:
+	 *  
+	 *  1. String getHeader (String nombre) A partir del nombre del encabezado oobtenemos su valor. 
+	 *  
+	 *  2. Enumeration<String>getHeaderNames()
+	 *  
+	 *  TRANSFERENCIA DE PETICIONES
+	 *  ---------------------------
+	 *  No siempre tiene que ser el mismo servlet el que genere la respuesta para el cliente. Puede que decida transferir la petición a otro componente (ya sea un servlet, JSP o HTML) que se
+	 *  encargue del procesamiento final de la petición. 
+	 *  
+	 *  
+	 *  	* El objeto RequestDispatcher: Para transferir una petición a otro componente, necesitamos hacer uso del objeto RequestDispatcher. El proceso sería el siguiente: 
+	 *  		
+	 *  		1. Obtener el objeto RequestDispatcher asociado al componente destino de la petición.
+	 *  		2. Llamar al método que realiza la transferencia. 
+	 *  
+	 *  OBTENER EL OBJETO RequestDispatcher
+	 *  RequestDispatcher es una interfaz que proporciona una serie de métodos para realizar la trasnferencia de una petición desde un servlet a otro componente. 
+	 *  Este método recibe como parámetro la URL relativa del servlet u otro componente al que queremos transferir la petición. 
+	 *  EJ: RequestDispatcher rd= request.getRequestDispatcher ("Servlet2");
+	 *  
+	 *  TRANSFERIR LA PETICIÓN
+	 *  ----------------------
+	 * Una vez que tenemos el RequestDispatcher apuntado al servlet destino, podríamos llamar a cualquier de los siguientes métodos para realizar la transferencia de la petición: 
+	 * 
+	 *   	* forward(ServletRequest request, ServletResponse response)
+	 *   Transfiere totalmente el control al componente destino, que sería el encargado de generar la respuesta final para el cliente. 
+	 *   
+	 *   	* include(Servletrequest request, ServletResponse response)
+	 *   Transfiere temporalmente el control al componente destino, de modo que cuando finalice sus ejecución, el control de la petición volverá al servlet principal, el que será el encargado final de generar
+	 *   la respuesta. 
+	 *   
+	 *   REDIRECCIONAMIENTO
+	 *   ------------------
+	 *   El servlet no tiene porque generar dinámicamente una página de respuesta al usuario, sino que la respuesta consistirá en informar al navegador de que tiene que visitar otra URL.
+	 *   
+	 *   El método sendRedirect de HttpServletResponse
+	 *   Para redireccionar al usuario a otra URL utilizaremos el método sendRedirect() de HttpServletResponse:
+	 *   
+	 *   	void sendRedirect(String url)
+	 *   
+	 *   La diferencia entre transferencia yy redireccionamiento. En el redireccionamiento se vuelve a frozar una segunda peticicón desde el cleitne hacia el recurso de destino, 
+	 *   mientras que en la transferencia de petición todo tiene lugar dentro del servidor, en la misma tarea. 
+	 *   
+	 *   https://youtu.be/DRjEg34u-mE
+	 *   
+	 *   UF2.5 ALMACENAMIENTO DE DATOS EN EL SERVIDOR: ATRIBUTOS Y ÁMBITOS.
+	 *   
+	 *   CAPTURA DE DATOS DE USUARIO
+	 *   ---------------------------
+	 *   PAra conseguir que los datos manejados por un servlet estén disponibles más allá de la ejecución de este servlet, la especificación Java EE pone a disposición del programadore
+	 *   una serie de técnicas conocidas como TÉCNICAS PARA EL MANTENIMIENTO DE ESTADO, con la que podemos conseguir nuestros objetivos.
+	 *   
+	 *   Las diferentes técnicas son:
+	 *   
+	 *   * Atributos de petición. 
+	 *   * Atributos de seción.
+	 *   * Atributos de Aplicaicón.
+	 *   * Cookies. 
+	 *   
+	 *    Cada una de estas técnicas es apropiada en un determinado contexto. Un uso inadecuado de las mismas puede acarrear problemas de rendimiento en nuestra aplicación.
+	 *    
+	 *    LAS TRES PRIMERAS TÉCNICAS UTILIZAN LA MEMORIA DEL SERVIDOR DE APLICACIONES, MIENTRAS QUE LAS COOKIES UTILIZAN EL DISCO DURO DEL CLIENTE.
+	 *    
+	 *    ATRIBUTOS DE PETICIÓN
+	 *    ---------------------
+	 *    Pueden compartir datos entre dos o más servlets, o entre servlets y JSP, que se ejecutan destro de una misma peticicón. 
+	 *    Los atributos de petición se almacenan en el objeto HttpServletRequest, que es compartido por todos los componentes de la petición. 
+	 *    
+	 *     Métodos para almacenar atributos de petición 
+	 *     --------------------------------------------
+	 *     * void setAttibute (string nombre, object data). 
+	 *     * Object getAttribute (string nombre)
+	 *     
+	 *     ATRIBUTOS DE SESIÓN
+	 *     --------------------
+	 *     Un atributo de sesión permite compartir datos entre todos los componentes de la aplicación mientras dure la sesión de usuario. 
+	 *     Los atributos de sesión se almacenan en la memoria del servidor de aplicaciones, dentro del objeto HttpSession. Cada usuario de la 
+	 *     aplicación tendrá su propia copia de HttpSession.
+	 *     
+	 *     OBTENCIÓN DE UN OBJETO HTTPSESSION
+	 *     ----------------------------------
+	 *     Para obtener un objeto HttpSession desde el interior del método service() se utilizará el método getSession() del objeto HttpServletRequest
+	 *     
+	 *     			EJ: HttpSession sesion=request.getSession();
+	 *     
+	 *     
+	 *     Métodos para acceder a tributos de sesion
+	 *     -----------------------------------------
+	 *     
+	 *
+	 *
+	 *
+	 *  		
+	 * 
+	 * 
+	 *  
 	 *  
 	 */
 
