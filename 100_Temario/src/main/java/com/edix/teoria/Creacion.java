@@ -489,6 +489,98 @@ public class Creacion {
 	 * 4. El objeto header. Es el que proporciona acceso a los encabezados recibidos en la petición. Al igual que param, expone una serie de propiedades cuyos nombres
 	 * son los nombres de los encabezados recibidos. Por ejemplo, para mostrar el valor del encabezado user-agent utilizaremos la expresión: 
 	 * EJ  ${header.user-agent}
+	 * 
+	 * OPERADORES EL
+	 * -------------
+	 * Las expresiones EL pueden incluir operaciones con datos haciendo uso de los operadores EL. 
+	 * 
+	 * Estos operadores son un subconjunto del juego de operadores del lenguaje Java. 
+	 * 
+	 * 1. Operadores aritméticos
+	 * 
+	 *  Son +,-,*,/ y %
+	 *  
+	 *  EJEMPLO: 
+	 *  			${param.numero*sessionScope.facto}
+	 *  
+	 *  No tenemos que realizar ningún tipo de conversión a número para poder realizar operaciones artiméticas con los datos El, ya que este lenguaje se encarga de realizar estas 
+	 *  conversiones implícitamente. 
+	 *  
+	 *  2. Operadores relacionales
+	 *  Se pueden emplear abreviaturas o combinaciones de letras. 
+	 *  
+	 *  son >(gt),<(lt),>=(ge),<=(le),!=(ne)
+	 *  
+	 *  Por ejemplo, la siguiente expresión nos mosotrará true si la porpiedad 'edad' del atributo de sesión persona es mayor o igual a 18:
+	 *  		${sessionScope.persona.edad ge 18}
+	 *  
+	 *  Si el atributo no existe, no se producirá ninguna excepción y se devolverá directamente false. 
+	 *  
+	 *  3. Lógicos 
+	 *  Realizan operaciones de tipo lógico en una expresión . 
+	 *  
+	 *  son &&(and), ||(or), !(not)
+	 *  
+	 *  4. Operador condicional. 
+	 *  Es equivalente al operador ternario de Java. 
+	 *  En el siguiente ejemplo, semuestra 'conseguido', si el valor del parámetro 'nota' es superior a 5, y 'no conseguido' en el caso contrario: 
+	 *  
+	 *  		${param.nota>5?"conseguido":"no conseguido"}
+	 *  
+	 *  5. Operador vacío
+	 *  Se trata del operador 'empty' y es de gran utilidad en muchas aplicaciones. DEvuelve true, si el dato sobre el que se aplica es nulo. 
+	 *  en el caso de ytratarse de un dato de tipo colección o array, devolverá true si la colección/array existe pero tiene tamaño 0.
+	 *  
+	 *  
+	 *  UTILIZACIÓN DE TAGLLIB: ETIQUETAS PERSONALIZADAS
+	 *  ------------------------------------------------
+	 *  Una acción es una tarea lógica que puede realizarse dentro de una página JSP, sin emplear código Java para ello, simplemente 
+	 *  utilizando etiquetas XML. 
+	 *  Una acción es una llaamda a un método definido dentro de una clase Java. 
+	 *  
+	 *  la sintáxis es la siguiente. 
+	 *  <prefijo: nombre_accion atributo1="valor" atributo2="valor"/>
+	 *  
+	 *  LA LIBRERÍA DE ACCIONES DE JSTL
+	 *  -------------------------------
+	 *  
+	 *  JSTL es la libreía de acciones estándares de JSP. 
+	 *  
+	 *  JSTL son las siglas de Java Standar Tag Library (librería de acciones estándares de Java). 
+	 *  
+	 *  Grupos de acciones JSTL
+	 *  -----------------------
+	 *  JSTL proporciona muchas acciones para realizar diferentes tipos de tareas en una página JSP. 
+	 *  Estas acciones se ecnuentran clasificadas en los siguientes grupos: 
+	 *  	
+	 *  	* Core: Se trata del grupo mas importante, ya que en él se encuentran todas aquellas que realizan las tareas de lógica de programación habituales. 
+	 *  
+	 *  	* Formato: contiene acciones para el formateo de datos en una página, como números, texto y fechas. Este grupo se emplea mucho para la internacionalización 
+	 *  				de sitiios web.
+	 *  
+	 *  	* SQL: Incluye acciones para enviar instrucciones SQL a una base de datos. Este tipo de tareas no se realizan habitualmente en una página JSP, por lo que
+	 *  				no son muy utilizadas.
+	 *  
+	 *   	* XML: Con este grupo de acciones podemos manipular documentos XL es una página JSP. 
+	 *   
+	 *   	* Function: Incluye un gran número de funciones para la realización de operaciones con cadenas de caracteres. 
+	 *   
+	 *   
+	 *   ESTUDIO DE LAS PRINCIPALES ACCIONES JSTL
+	 *   ----------------------------------------
+	 *   
+	 *   Acción set: creación de variables
+	 *   
+	 *   la acción ser se emplea para crear variables y asignarles un determinado valor. El valor de esta varibale puede utilizarse después en otra parte de la página,
+	 *   dentro de una expresion EL. La acción set, además, dispone de los siguiente atributos: 
+	 *   
+	 *    	* var: Identidicados de la variable que se quiere crear. 
+	 *    	* value: Valor asignado de la variable. 
+	 *    
+	 *    				<c:set var="num" value="5"/> creación de la varibale 5
+	 *   
+	 *  
+	 *  
 	 *  
 	 */
 
