@@ -416,14 +416,79 @@ public class Creacion {
 	 *     
 	 *     Métodos para acceder a tributos de sesion
 	 *     -----------------------------------------
+	 *     La interfz HttpSession cuenta con los métodos setAttribute() y getAttribute() para guardar y recupeprar los atributos de sesión.
+	 *     Desde el momento que el objeto HttpSession se crea, este permanece en la memoria del servidor de aplicaciones hasta que la sesioón caduca, 
+	 *     a este se lde denomina Timeout.
+	 *     El Timeout depende de cada servidor de aplicaciones, aunque siempe se puede configurar para una aplicación concreta. 
 	 *     
+	 *     QUEDA PENDIENTE HACER LOS EJEMPLEOS SOBRE LOS ATRIBUTOS DE SESSION
 	 *
+	 *	ATRIBUTOS DE APLICACION
+	 *	-----------------------
+	 *	Los atributos de aplicacion nos permiten compartir datos entre todos los usuarios de la aplicación. Están accesibles desde cualquier componente de la misma. 
+	 *	El objeto donde se almacenan los atributos de aplicación es el ServletContext, que implementa la interfaz de mismo nombre. 
 	 *
+	 *	ejemplo: El tipico 'me gusta' que incluyen muchas aplicaciones web. 
 	 *
+	 *	Métodos para la manipulación de los atributos de aplicación 
+	 *	-----------------------------------------------------------
+	 *	Para almacenar y recuperar atributos de aplicación recurriremos a los métodos setAttribute / getAttribute. Su funcionamiento es exactamente el mismo que los ya vistos en HttpServletRequest y HttpSession
+	 *
+	 *	Obtención del objeto ServletContext
+	 *	-----------------------------------
+	 *	Una vez más, el objeto HttpServletRequest dispone de un método, en este caso getServletContext(), que nos devuelve una referencia al objeto ServletContext:
+	 *
+	 *	ServletContext sc = request.getServletContest();
+	 *
+	 *	Dado que es un objeto compartido por todos los usuarios, el ServletContext se crea cuando el primer usuario de la apliación lo solicita mediante llamada a getServletContext(). No se destruye hasta que la aplicación 
+	 *	se detiene por algún motivo. 
+	 * Puede se interesante que la priemra petición que haga el usao del ServletContext  realice una inicialización de los atributos. 
 	 *  		
 	 * 
+	 * https://youtu.be/ZT3hnGqsnqY
 	 * 
+	 * 2.6. JSP: SUSTITUIR CÓDIGO EMBEBIDO POR ETIUQUETAS PERSONALIZADAS (JSTL/EL)
+	 * ---------------------------------------------------------------------------
+	 * La combinación del lenguaje de expresiones permite realizar tareas de LÓGICA DE PROGRAMACIÓN en una página JSP sin uilizar código Java.
+	 * 
+	 * Este lenguaje de expresiones (expression language) se emplea para definir expresiones dentro de una página JSP, es decir, operaciones que devuelven un resultado en la página de respuesta. 
+	 * 
+	 * El lenguaje de expresiones (EL) representa una alternativa de usao de código Java a la hora de generar resultados dento de una página JSP. 
+	 * Es reconocido automáticamente por todos los servidores de aplicaciones. 
+	 * 
+	 * La sintaxis es : ${expresion}
+	 * 
+	 * También podemos utilizar objetos referenciados mediante la acción del useBean. 
+	 * 
+	 * Ej: ${obj.nombre}
+	 * 
+	 * OBJETOS EL 
+	 * ----------
+	 * Disponemos de una serie de objetos implícitos con los que acceder a toda la infomración de contexto de aplicación. 
+	 * 
+	 * La sintaxis de uso de estos objetos sería: ${objeto.propiedad}, que devolvería a la página el valor conetnido en la propiedad indicada del objeto. 
+	 * En ningún caso podemos utilizar un objeto EL para modificar ninguno de los datos alamcenados en los objetos. 
+	 * 
+	 * Juegos de objetos EL
+	 * --------------------
+	 * 
+	 * 1. El objeto param. Mediante este objeto accedemos a la parámetros creados en la propia página. Por ejemplo, si quisiéramos imprimir en la página 
+	 * el valor del parámetro 'usuario' recibido en la request, sería:  ${param.usuario}
+	 * 
+	 *  **En el  caso de no existir ese parametro, la expresion EL no devuelve null, sino una cadena vacía. 
 	 *  
+	 * 2. El objeto requestScope. Proporciona acceso a los atributos de petición expuestos a tráves de propiedades del objeto en tiempo de ejecución. Por ejemplo, si queremos mostrar
+	 * el valor de un atributo de petición llamado 'codigo', escribiremos:  ${requestScope.codigo}
+	 * 
+	 * Esta expresión realizar implícitamente una llamada al método getTitulo() del objeto JavaBean. 
+	 * En el caso de las colecciones del tipo 'Map' , tamvién podemos acceder a los valores de los objetos almacenados utilizando el nombre de clase en luegar de la posición. 
+	 * 
+	 * 3. Los objetos sessionScope y applicationScope. Estos objetos permiten acceder a los atributos de sesción y aplicación respectivamente y, al igual que requestScope, exponen 
+	 * en tiempo de ejecución los valores de los atributos a tráves de las propiedades del objeto. Además, la manera de utilizar los tres objetos es la misma. 
+	 * 
+	 * 4. El objeto header. Es el que proporciona acceso a los encabezados recibidos en la petición. Al igual que param, expone una serie de propiedades cuyos nombres
+	 * son los nombres de los encabezados recibidos. Por ejemplo, para mostrar el valor del encabezado user-agent utilizaremos la expresión: 
+	 * EJ  ${header.user-agent}
 	 *  
 	 */
 
