@@ -579,9 +579,77 @@ public class Creacion {
 	 *    
 	 *    				<c:set var="num" value="5"/> creación de la varibale 5
 	 *   
+	 *  Accion forEach: recorrido de datos
 	 *  
+	 *  La acción forEach se emplea para recoger un grupo de datos (colección o array) . Dispone de los siguentes atributos: 
+	 *  	
+	 *  	* var. Variable de control que apuntará a cada elemento de la colección o array durante el recorrido. 
+	 *  	* items. Conjunto de elementos a recorrer. Habitualmente, se utilizará una expresión El ara referenciar a dciho 
+	 *  		conjunto de datos.
 	 *  
+	 *  EJEMPLO 
+	 *  		<H1>Listado de empleados:</h1>
+	 *  		<ul>
+	 *  		<c:forEach var="emp" items="${requestScope.empleados}">
+	 *  			<li>${mp.nombre}</li>
+	 *  		</c:forEach>
+	 *  		</ul>
 	 *  
+	 *  UTILIZACIÓN COMO FOR ESTÁNDAR
+	 *  
+	 *  También podemos utilizar la acción forEachcomo una instrucción repetitiva clásica for. 
+	 *  
+	 *  Se deberán utilizar los siguientes atributos de la acción: 
+	 *  	*var. Al igual que en la modalidad anterior, indica el nombre de la variable de control- 
+	 *  	*begin. Valor inicial de la variable de control. 
+	 *  	*end.valor final de la varibale de control
+	 *  	*Step. Valor de incremento/decremento de la varibale de control en cada iteración.
+	 *  
+	 *  ACCIÓN FORTOKENS: RECORRIDO DE UNA CADENA DE CARACTERES
+	 *  -------------------------------------------------------
+	 *  Si queremos recorrer una cadena de caracterres, formada por una serie de ítems separados por algún carácter limitador, la acción forTokens
+	 *  es la solución. 
+	 *  
+	 *  Veamos cuáles son su atributos:
+	 *   
+	 *  	*var.Variable de control que apuntará a cada ítem de la cadena. 
+	 *  	*ítems. Cadena a recorrer.  Puede proporcionarse como un literal, o mediante una expresión El que devuleva dicha cadena. 
+	 *  	*delims. Carácter delimitador de token. 
+	 *  		
+	 *  		EJEMPLO: 
+	 *  				<c:set var="nombres" value="Marcos,Ana,Lucia,Martín"/>
+	 *  				<c:fortokens var="n" items="${nombres}" delims=",">
+	 *  					Nombre: ${n}<br/>
+	 *  				</c:forTokens>
+	 *  
+	 *  ACCIÓN IF: EVALUACIÓN DE CONDICIÓN
+	 *  ----------------------------------
+	 *  Utilizaremos la acción if para procesar un conjunto de sentencias si se cumple una condición. Dispone de un único atributo 'test', 
+	 *  que mediante una expresión EL indica el resultado de la condición a evaluar. 
+	 *  
+	 *  ACCIÓN CHOOSE: MÚLTIPLES CONDICIONES
+	 *  ------------------------------------
+	 *  Esta acción se utiliza para evaluar diferencetes condiciones y realizar distitas tareas según la condición que se compla.
+	 *  
+	 *  		EJEMPLO FORMATO:
+	 *  			<c:choose>
+	 *  				<c:when test="condicion1">
+	 *  
+	 *  				</c:when>
+	 *  				<c:when test="condicion2">
+	 *  
+	 *  				</c:when>
+	 *  				.
+	 *  				.
+	 *  				<c:otherwise>
+	 *  	
+	 *  				</c:otherwise>
+	 *  			</c:choose>
+	 *  
+	 *  Cada condición es evaluada mediante la subacción 'when', cuyo formato es idéntivo a 'if'. si se cumple una de las condiciones, se procesarán las sentencias delimitadas por dicho 'when'. 
+	 *  Existe la posibilidad de añadir un bloque opcionla, llamado 'otherwise', que será ejecutado si no se cuemple ninguna de las condiciones. 
+	 *  
+	 *  https://youtu.be/VafYQ_pKVc8
 	 */
 
 }
