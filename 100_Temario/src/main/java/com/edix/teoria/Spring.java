@@ -198,5 +198,168 @@ public class Spring {
 	 *				* Las del JSTL. 
 	 *				* Una especial para Tomcat 
 	 *
+	 * CAPA DE DATOS : MODELO 
+	 * ----------------------
+	 * Para cada entidad de negocio necesitamos tres capas, cada una en un paquete distinto. Los nombre de los paquetes pueden ser otros, pero lo adecuado sería: 
+	 * 
+	 * 1. El JavaBean de la entidad en el paquete modelo.beans
+	 * 
+	 * 2. Un repositorio de datos en un paquete denominado modelo.repository, y usamos la forma de trabajar de Spring: definir la funcionalidad en una interfaz y crear
+	 * una clase que implemente esta interfaz anotado con @Repository, que lleva implícito la anotación @Component. 
+	 * 
+	 * 		A) Una interfaz para esta entidad que dice todo lo que podemos hacer con esta entidad: 
+	 * 
+	 * 				*Métodos CRUD: insert, update, delete, buscar uno por atributo identidad. 
+	 * 
+	 * 				*Buscar todos (y búsquedas por todo lo imaginable).
+	 * 
+	 * 3. El servicio que representa el subconjunto de métodos del repositorio, métodos necesarios en mi aplicación para trabajar con la entidad (JavaBean) correspondiente, 
+	 * en el modelo.services, y con la misma filosofía de Spring que el repositorio: 
+	 * 
+	 * 		A) Una interfaz con los métodos que necesito en esta aplicación. 
+	 * 
+	 * 		B) Una clase que implementa esta interfaz, anotado con @Service, que lleva implícito la anotación @Component y, por tanto, queda bajo el paraguas del contenedor de Spring. 
+	 * 			Además, usa los métodos del repositorio , inyectando una variable con @Autowired del tipo interfaz del repositorio. 
+	 * 
+	 * 4. Y, por último, usar los métodos del servicio en nuestro controlador. 
+	 * 
+	 * 
+	 * USAR EL SERVICIO EN EL CONTROLADOR
+	 * ----------------------------------
+	 * Vamos a suponer que nos llega una petición web con la URL: /familias/todas. Creamos un método con el @GetMapping correspondiente ("/todas"). 
+	 * 
+	 * Definimos una varibale de IFamiliaService y, con  @Autowired Spring, nos hace el NES de FamiliaService. 
+	 * 
+	 * ver vídeo UF3.4  https://youtu.be/YkGzDQKi38o  1º
+	 * ver vídeo UF3.4  https://youtu.be/Rb_M9JAW5BU  2º
+	 *  
+	 *  
+	 * UF3.5 GESTION DE URL: ANOTACIONES, OBJETOS Y ATRIBUTOS
+	 * ------------------------------------------------------
+	 * Básicamente existen tres tipo de rutas URL para la gestión de tareas en el servidor, independeientemente de la tecnología y el lenguaje de programación que usemos: 
+	 * URL estática y URL dinámica (de tipo RequestParam o de PathVariable). 
+	 * 
+	 * 1.URL sin parámetro, llamadas URL estáticas, es decir, la  URL dice lo que hay que hacer por sí sola. Ejemplos: 
+	 * 			
+	 * 			A) /productos/todos: Quiero todos los produtos. 
+	 * 
+	 * 			B) /prodcutos/novedades: Quiero todos los prodcutos nuevos.
+	 * 
+	 * 			C) /productos/alta: Dar de alta un producto. 
+	 * 
+	 * 2. URL con parámetros, también llamadas URLs dinámicas. Es decir, necesito datos, saber el código de un producto para eliminar, cancelarm para editar. Necesito 
+	 * un código de familia para sacar los productos de una familia. En este caso, hay dos posibilidades o estilos de URL: 
+	 * 
+	 * 		1.El uso de parámetros, es decir, parejas de datos de tipo Map<String, String>: 
+	 * 
+	 * 				String para el nombre del parámetro. 
+	 * 
+	 * 				String para el valor. 
+	 * 
+	 * 		2.A este tipo de parámetro String lo llama RequestParam, y nos sirven como ejemplos descriptivos: 
+	 * 
+	 * 				/productos?opcion=editar&producto=2
+	 * 
+	 * 				/productos?opcion=porfamilia&idFamilia=3
+	 * 
+	 * 		3.El uso de datos formando parte de la path de la URL. A estos Spring los denominda PathVariable. Y por comparación del modelo anterior, estos ejemplos: 
+	 * 				
+	 * 				/productos/editar/2
+	 * 				
+	 * 				/prodcutos/porfamilia/3
+	 * 
+	 * 
+	 * 	URLs dinámicas @PathVariable
+	 * -----------------------------
+	 * En Spring MVC estas URLs dinámicas se las conoce como URL Templates, ya que funcionan como plantillas para obtener las diferentes rutas, y que serán tratadas 
+	 * por los métodos de los controladores. 
+	 * Un parte es estática y no cambia en los href; otra parte, la asociada a los valores, se considera dinámiza porque toma el valor correspondiente a la variable escrita en el 
+	 * JSTL: 
+	 * 
+	 * Cuando el usuario pulsa el botón o enlace asociado al href, el path toma como último parámetro el valor asociado a ese código a tráves de la expresión de lenguaje
+	 * ${prod.idProducto}
+	 * 
+	 * Debes tener en cuenta que los datos siempre viajan como String, independientemente del tipo de dato. 
+	 * 
+	 * En el caso de que la URL viniese con más de un dato, en los parámetros del método se recogerían tantos @PathVaribale como variables hubiese y con el tipo de dato correspondiente.
+	 * 
+	 *  URls dinámicas @RequestParam
+	 *  ----------------------------
+	 *  Otra manera de pasar los datos dinámicos por la URL consiste en el uso de parámetros que contienen dos partes, ambas de tipo String: la clave y el valor.
+	 *  
+	 *   @RequestParam es del mismo tipo que el objeto request de la clase HttpRequest de JEE, el que tenía el método getParameter("name") para obtener el valor de este parámetro y, luego, tenías que hacer
+	 *   tú los parses para convertir el String al dato necesario.
+	 *   
+	 *   ATRIBUTOS DE PETICIÓN (REQUEST) 
+	 *   -------------------------------
+	 *   PAra que las vistas (los ficheros JSP) puedan mostrar dinámicamente la información proviniente del negocio (de los métodos del conrolador), necesitan crear atributos. 
+	 *   En JEE estos atributos se generaban con el método setAttributte de request. 
+	 *   
+	 *   En el caso de Spring MVC se realizan usando una varibale de la clase Model, que la usamos como parámetro de los métodos de control cuando nos haga falta. 
+	 *   
+	 *   ATRIBUTOS DE SESIÓN
+	 *   -------------------
+	 *   La manera mas simple de tratar con sesiones es introducir una varibale de HttpSession en el método donde queremos mantener la sesión del usuario. 
+	 *   
+	 *   Cuando se cierre la sesión usamos los mismos métodos para eliminar la sesión: 
+	 *   
+	 *   		* removeAttibute() para borrar todos los atributos de la sesión. 
+	 *   
+	 *   		* invalidate() para cancelar la sesión.
+	 *   
+	 *   ver vídeos https://youtu.be/N8_B2MWV-x8
+	 *   
+	 *   
+	 *   UF3.6 GESTION DE FORMULARIOS: DATA BINDING Y REDIRECCIONAMIENTO
+	 *   ---------------------------------------------------------------
+	 *   Solo dos consideraciones: 
+	 *   
+	 *   		* Ambos métodos, @getMapping y @PostMapping, llevan la misma URL. Pero los métodos en un controlador deben llevar nombres distintos por eso mismo, porque son distintos. 
+	 *   
+	 *   		* El FrontController, DispatcherServlet, de Spring distingue la misma URL, porque una viene por petición GET y la segunda vienen por POST.
+	 *   
+	 *    
+	 *    @RequestParam en Formularios
+	 *    ----------------------------
+	 *    Como sabemos, en un formulario, los valores asociados, se recogían a tráves del atributo name con su nombre de parámetro correspondiente. 
+	 *    
+	 *    los atributos id y class son para las hojas de estilo CSS.
+	 *    
+	 *    "Como buena práctica, el literal asociado al atributo name de los componentes de un formulario debería ser el mismo que el atributo de instancia de la clase de negocio al que corresponden los datos del formulario."
+	 *    
+	 *    Si tomamos cada nombre de parámetro de forma independiente, el tratamiento en el método del controlador será el mismo que el aplicado en las URLs de estilo RequestParam, es decir, se recoge en el método que trata el formulario, cada
+	 *    parámetro en un @RequestParam y se crea la variable necesaria para obtener la información.
+	 *    
+	 *    Data Binding
+	 *    ------------
+	 *    nos centramos ne los praámetros usuario y pasword con traibutos de la clase Clietne. Pues bien, si en el método @PostMapping, en lugar de recoger parámetro a parámetro, porngo una variable que referencia a la clase cliente que contiene alguno 
+	 *    de los atributos con el mismo nombre que los name: 
+	 *    
+	 *    Spring MVC en tiempo de transmisión de los datos busca esa clase cliente, crea un objeto de esta y asocia a cada atributo de la clase el valor de los name correspondientes. 
+	 *    
+	 *    
+	 *    REDIRECCIONAMIENTO 
+	 *    ------------------
+	 *    Para redireccionar a toro método con una URL diferente, Spring me proporciona dos maneras: forward y redirect. 
+	 *    
+	 *    1. Forward 
+	 *    		return "forward:/url";
+	 *    
+	 *    Este forward es una reminiscencia del método forwrad de RequestDispacher de servlet:
+	 *    
+	 *    Enlaza dos servlet en la misma tarea y, al pasarle el request y responde, el siguiente servlet tiene acceso a todos los atributos que se han generado durante la petición.
+	 *    
+	 *    Pero este forward en Spring necesita que las dos peticiones enlazadas sean de tipo @GetMapping y esta petición, que procesa un formulario, es de tipo @PostMapping, y da error. 
+	 *    
+	 *    2. Redirect
+	 *    		return "redirect:/url";
+	 *    
+	 *    A diferencia de forward, arranca una tarea nueva, una petición nueva, hilo nuevo- 
+	 *    Caundo se hace una petición nueva, todos los atributos de Model se pierden y el formulario, que quiere mostrar el mensaje de "alta", enerando en el método post, no lo encuentra, por tanto, no aparecería nada. 
+	 *    
+	 *    Sprign ha ideado  un mecanismo: los atributos FlashAttribute. Estos atributos los guarda en la sesión, pero nada más utilizarlos (al referenciarlos la primera vez) los elimina en segundo plano sin que te enteres. 
+	 *    
+	 *    
+	 *   
 	 */
 }
