@@ -90,6 +90,62 @@ public class Rest {
 	 * @Consumes: es similar a la anterior, pero se emplea para indicar el formato del dato que va a ser enviado en el cuerpo de la petición, si es que se va a enviar algo. Normalmente, se emplea en métodos que van 
 	 * a enviar algo. Normalmente, se emplea en métodos que van a responder a peticiones PUT y POST, que son las que suelene enviar datos en el cuerpo. 
 	 * 
-	 * PEro en nuestro caso estamos usando Spring Boot, que usa sus propias anotaciones, de las que conocemos @GerMapping y @PostMapping, que como ves se parecen bastante a las deJAX- Rs. 
+	 * Pero en nuestro caso estamos usando Spring Boot, que usa sus propias anotaciones, de las que conocemos @GerMapping y @PostMapping, que como ves se parecen bastante a las deJAX- Rs. 
+	 * 
+	 * 
+	 * UF6.3 MICROSERVICIOS REST CON SPRING BOOT
+	 * -----------------------------------------
+	 * Diferencia entre servicio REST y microservicio REST:
+	 * 
+	 * Un microservicio es una unidad de software que implementa una funcionalizada concreta y se ejecuta de forma autónoma e independiente. Incluye todo lo necesario para su ejecucion, 
+	 * sin depender de ningún software adicional. Es decir, se despliega de forma autonomática e independiente. 
+	 * 
+	 * Los servicios REST tradicionales se montan sobre un controlador we, les hace falta su motor de servicios (Jax_rs) y una vez terminando se genera una aplicación de tipo war y se despliegan en un 
+	 * servidor de aplicaciones de las ampliaciones. 
+	 * 
+	 * Para montar un microservicio: 
+	 * 
+	 * 		Se implementan los métodos que generan las respuestas. 
+	 * 
+	 * 		Se genera un fichero '.jar', con su método estático 'main()'. 
+	 * 
+	 * 		El servidor de aplicaciones está embutido en el proyecto, de forma que, esta aplicacion se pueda ejecutar po sí sola (standalone), sin depender de nadie. 
+	 * 
+	 * 
+	 * CONFIGURACION 
+	 * -------------
+	 * Un microservicio REST no deja de ser una aplición que recibe peticiones HTTP a través de la web, de cualquier cliente, siempre y ciando este cliente pueda realziar peticiones HTTP. 
+	 * 
+	 * Como aplicación Spring Boot tiene incorporado Tomcat, que es el servidor de aplicaciones web, hay que configurar el puerto por donde va a escuchar estas peticiones. Esto lo hacemos en el fichero 'application.properties'
+	 * 
+	 * Creación del controlador REST: @RestController
+	 * 		
+	 * 		* Una clase controladora se Spring Boot se convierte en una aplicación de servicios web, anotando la clase como @RestController.
+	 * 
+	 * 		* Como es una petición de lectura el método que va a manejar la petcición se anota @getMapping("/saludo") especificando la ruta de la URL asociada al método. 
+	 * 
+	 * 		* Y el servicio estaría completado. 
+	 * 
+	 * 
+	 * UF6.4 DESARROLLO DESPLIEGUE Y EJECUCIÓN CON POSTMAN
+	 * ---------------------------------------------------
+	 * lo primero es crear el proyecto se servicios REST para los casos de uso. 
+	 * 
+	 * Creamos el proyecto nuevo con los starter de: 
+	 * 
+	 *		* Spring mvc y spring Developpers Tools. 
+	 *		* Spring Data JPA y Driver MySQL. 
+	 *		* Aplicación Java 11, Maven y Package jar. 
+	 *
+	 *	Definir los JavaBean anotados JPA.
+	 *	Crear los repositories.
+	 *	Crear los interfaces de negocio.
+	 *	Clases que implementan los interfaces.
+	 *	
+	 *
+	 *	DEFINIR LOS @RESTCONTROLLER
+	 *	---------------------------
+	 * La anotación @CrossOrigins(origins="*"), es para permiitir accesos desde aplicaciones cliente web, es decir, desde JavaScript con peticiones HTTP Ajax.
+	 * 
 	 */
 }
