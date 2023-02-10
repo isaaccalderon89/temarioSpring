@@ -155,6 +155,119 @@ public class Security {
 	 *         * usersByUsarnameQuery, que es una consulta SQL de las columnas que hay en la tabla, donde le informo de cuál hace de usarname, password y eneable. 
 	 *         
 	 *         * authoritiesByUsernameQuery, que es una consulta de SQL en donde le digo qué voy a usar como username y nombre del perfil de las tabla de perfiles.
+	 *         
+	 *         UF 5.4 PERMISOS Y AUTORIZACIONES DE URL.
+	 *         ----------------------------------------
+	 *         
+	 *         -Autenticación de URL-
+	 *         
+	 *         Mediante la configuración HttpSecurity y su métodos tenemos la capacidad de configurar que URLs están permitidas sin autorización y qué URLs no lo están. 
+	 *         
+	 *         En la mismca clase donde hemos configurado el datasource con las tablas de usuarios y perfiles visto en la lección anterior, debemos sobrecargar el método 
+	 *         configure, admitiendo como parámetro un objeto de la clase HttpSecurity
+	 *         
+	 *         Esta clase tiene los siguientes métodos: 
+	 *         
+	 *          	* autorizeRequest(): con este método se inicia la lista de recursos y URLs autorizadas.
+	 *          	* antMatchers(): especificación del recurso o URL entre comillas separados por comas, que queremos autorizar. 
+	 *          	* permiteAll(): indica que todos lo recursos URLs especificados por antMatchers están permitidas sin autorización y, por tanto, no solicitan la llamada 
+	 *          					a la URL/login que muestra en el navegador el formulario de login. 
+	 *          
+	 *          Por tanto, en primera instancia especificamos que directrios del proyecto de la parte static: JavaScript, CSS, Bootstrap, imágenes o cualquier directorio que tengamos
+	 *          ahí (si los hubiera), le autorizamos sin autenticación. 
+	 *          
+	 *          Y, a continuación, sí permitimos navegar a usuarios que no se han registrado previamente, como invitados, para que vean como es nuestra aplicación. 
+	 *          
+	 *          Todos los métodos descritos devuelven un objeto de la clase HttpSecurity, por eso van todos encadenados. 
+	 *          
+	 *          El resto de URLs sin especificar, saltará el formluario de login. 
+	 *          
+	 *          -Autenticación de perficles-
+	 *          
+	 *          Los métodos de HttpSecurity encargados son: 
+	 *          
+	 *          * antMatchers(): especificación del recurso o URL entre comillas y separados por comas, que tenemos que autorizar. 
+	 *          
+	 *          * hasAnyAuthority(): con este método se indica la lista del perfil, o perfiles, autorizados de las URLs especificadas en antMachers. 
+	 *          
+	 *          * permiteAll(): indica que todos los recursos y URLs especificados por antMachers están permitidas sin autorización y, por tanto, no solicitan la llamada 
+	 *          				a la URL/login que muestra en el navegador el formulario del login. 
+	 *          
+	 *          
+	 *          FORMULARIO LOGIN Y RESTO DE URLS
+	 *          --------------------------------
+	 *           Al final de este método de configuración debemos poner que cualquier recurso o URL no especificada tiene que estar autenticada, esto se hace con los métodos: 
+	 *           
+	 *           	* anyRequest(): cualquier otra petición no especificada hasta ahora. 
+	 *              * aunthenticated(): queda autenticada y, por tanto, saldrá el formulario de login solicitando usuario y password. 
+	 *              
+	 *           
+	 *          OBTENER USUARIO Y PERFIL EN MI PROYECTO
+	 *          ----------------------------------------
+	 *          Si en cualquier comento del controlador quiero obtener el usuario o el perfil introducido en el formulario del login, debo inyectar un objeto de la clase 'Authentication'.
+	 *          
+	 *          Esta clase nos proporciona dos métodos: 
+	 *          
+	 *          		* .getName(): que devuelve el nombre del usuario que se ha autenticado. 
+	 *          
+	 *          		* .getAuthorities(): que nos devuelve una lista de la clase 'GrantedAuthority' para ver el perfil o perfiles de ese usuario. 
+	 *          
+	 *          
+	 *          UF 5.5 PERSONALIZAR VISTAS. TAGLIB SECURITY 
+	 *          -------------------------------------------
+	 *          Spring Security nos ofrece, para la creación y personalización de nuestras páginas JSP, una librería de etiquetas personalizadas. 
+	 *          
+	 *          PAra ello tenemos que incluir en el fichero de Maven pom.xml, la dependencia: 
+	 *          
+	 *          <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+					<dependency>
+		    			<groupId>org.springframework.security</groupId>
+		    			<artifactId>spring-security-taglibs</artifactId>
+		    			<version>5.4.5</version>
+					</dependency>
+					
+					y la siguiente línea en cada fichero jsp que queremos personalizar. 
+	 *          
+	 *          		<%@ taglib prefix="sec"uri="http://www.springframework.org/security/tags" %>
+	 * 
+	 * 			La idea es que la misma página la pueda configurar dependiendo de si estás autorizado o no, y que salgan botones del menú de navegación o 
+	 * 			botones de acción en función del perfil de cada usuario.
+	 *  		
+	 *  
+	 *  		ESTAS O NO AUTENTICADO
+	 *  		----------------------
+	 *  		La etiqueta corresponde a un método que pregunta si estás o no autenticado, para sacar todo lo que se encuentre entre la etiquea y el final de la etiqueta. 	
+	 *          
+	 *          
+	 *          UF 5.6 SESIONES DE USUARIO. ENCRIPTACIÓN DE DATOS. 
+	 *          --------------------------------------------------
+	 *          
+	 *          -Agragar datos a la sesión de usuario- 
+	 *          
+	 *          En el fastbook 04 vimos como en controladore podíamos obtener los datos del usuario y los perfiles a trvés de los métodos de la clase Authentication. 
+	 *          
+	 *          Aunque Security almacena este dato, en muchas ocasiones nos interesa almacenar en la sesión todos los atributos del Usuario, para poder obtenerlo en cualquier momento. 
+	 *          
+	 *          Para ello, tenemos que inyectar un objeto de la clase HtpSession en el método que tengamos para arrancar la página del Home. 
+	 *          
+	 *          Antes de almacenar el Uusario en el atrbiuto de la sesión, hacemos dos cosas:
+	 *          
+	 *          1. Preguntar si el atributo ha sido almacenado antes. 
+	 *          2. Eliminamos del usuario la password para que no ande viajando el objeto Usario con ella, así, aumentar la seguridad. 
+	 *          
+	 *          ENCRIPTAR CONTRASEÑAS
+	 *          ---------------------
+	 *          Spring Security proporciona la clase BCryptPasswordEncoder, que implementa l ainterfaz PasswordEncoder se Spring y utiliza el método hash fuerte de BCrypt para cifrar las contraseñas. 
+	 *          
+	 *          Para ello, debemos configurar, en el paquete de configuración (en el mismo fichero donde configuramos el DataSource y los permisos), un @Bean que nos permita inyectar en el controlador un objeto
+	 *          de la BCyptPasswordEncoder:  
+	 *          
+	 *          La contraseña encriptada, en tiempo de registrar al usuario, se alamacena también encriptada en la base de datos. 
+	 *          
+	 *          En fase de pruebas debes recordad la contraseña que tienes alamacenada en la base de datos
+	 *          
+	 *          
+	 *         
 	 */
 
 }

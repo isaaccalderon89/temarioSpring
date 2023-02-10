@@ -1097,3 +1097,4 @@ java.net.URISyntaxException: Illegal character in path at index 13: file:/D:/EDI
 2023-02-08 19:00:30,507 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2023-02-08 19:00:30,507 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
 2023-02-08 19:00:30,507 [Worker-42: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Todos los WS de desarrollo de aplicaciones web\temarioSpring\100_Temario\src\test\resources
+2023-02-10 18:37:15,154 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
