@@ -1,3 +1,5 @@
+![Spring](https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/1280px-Spring_Framework_Logo_2018.svg.png)
+***
 # Desarrollo Web Entorno Servidor
 
 Lo que vamos a hacer ahora es generar una breve documentación que nos aporte una idea muy básica sobre como se forma un proyecto web.
@@ -165,7 +167,81 @@ En tiempo de ejecución y en segundo plano, Spring Boot, transformará estos obj
 * **@GET, @POST, @DELETE, @PUT: asocian a lso métodos del servicio un determinado método HTTP**
 * **@PathParam**: asocia un parámetro recibido en la petición con el correspondiente parámetro del método del servicio que la va a procesar.
 * **@Produces**: se emplea a nivel de método para indicar al motor el **formato de respuesta**. 
-* **@Consumes**: es similar a la anterior, pero se emplea para inidicar el **formato del dato que va a ser enviado en el cuerpo de la petición. Normalmente, se emplea en métodos que van a responder a peticiones PUT y POST, que son las que suelen enviar datos en el cuerpo. 
+* **@Consumes**: es similar a la anterior, pero se emplea para inidicar el **formato del dato que va a ser enviado en el cuerpo de la petición. Normalmente, se emplea en métodos que van a responder a peticiones PUT y POST, que son las que suelen enviar datos en el cuerpo.
+* **@ResController**.Una clase controladora de Spring Boot se convierte en una aplicación de servicios web, simplemente anotando la clase como **@RestController**
+* **@CrossOrigins(origins= "*"), es para permitir accesos desde aplicaciones cliente web, es decir, desde JavaScript con peticiones HTTP **Ajax**.
+
+**RECUERDA: que un servicio REST, devuelve datos, información, que el proceso que nos llame necesita para su funcionamieto**. 
+Una aplicación web nos devuelve un jsp que queremos mandar al navegador. 
+
+### Configuración del microservicio REST
+
+Creamos el proyecto nuevo con los starter de: 
+
+        * Spring mvc y Spring Developer Tools 
+        * Spring Data JPA y Driver MySQL
+        * Aplicación Java 11, Maven y Package jar. 
+
+1. Definimos los JavaBean anotados con JPA
+2. Creamos los repositories
+3. Creamos las interfaces de negocio
+4. Clases que implementan las interfaces
+5. Definir los @RestController
+6. Ejecución con Postman
+
+## Spring Boot Security 
+
+A nivel de desarrollo de aplicaciones web, vamos a centrarnos en dos aspectos concretos, que son la autenticación y autorización de usuarios, aspectos que están estandarizados por la especificación Java EE. 
+
+El proceso de autorización es realizado también por el servicio de seguridad de servidor, basándose en las políticas de seguridad definidas dentro de la aplicación. Estas políticas se definen de manera declarativa en el archivo de configuración 'web.xml'. 
+
+Configuramos el proyecto añadiendo en los Strarter las opciones: 
+
+        * Spring mvs y Dev Tools
+        * Spring Security
+
+Tenemos que visualizar el fichero **pom.xml** y confirmar que se han añadidos las dependencias de Spring Security. 
+
+Por defecto nuestro proyecto aplicará de forma automática la siguiente configuración: 
+* Se crea un usario en memoria (**username=user**)con acceso a todas las URLs. 
+* La contraseña, encriptada, se genera automáticamente al arrancar Tomcat y se despliega en los log de arranque en la consola. 
+* Será requerida autenticación para todas las URL. 
+
+Para asignar un usario y una password por defecto lo hacemos a tráves del fichero de **'application.popoerties'**
+
+Se puede trabajar de dos maneras: 
+
+1. Tablas security:
+
+    * Crear dos tablas en motor de BBDD que tengamos. 
+    * Incorporar el driver de MySQL y el starter de Spring Data JPA. 
+    * Crear las clases anotadas @Entity con anotaciones JPA.
+    * Configurar la base de datos en el fichero **'application.popoerties'**
+    * Crear la clase que hereda de **WebSecurityConfigurerAdapter**. 
+
+2. Tablas propias. En el **datasource** hayq ue añadir dos métodos: 
+    * **usersByUserNameQuery**, que es una consulta SQL de las columnas que hay en la tabla, donde le informo de cuál hacer de *username*, *password* y *eneable*. 
+    * **authoritiesByUsernameQuery**, que es una consulta de SQL en donde le digo que voy a usar como *username* y nombre de perfil de la tabla de perfiles.
+    
+
+### Anotaciones
+
+* **@Configuration**. Indica que la clase sobre la que se encuentra aplicada debe ser usada como parte de la configuración de Spring. 
+* **@EneableWebSecurity**. Es una anotación importante en aplicaciones web de Spring Boot que permite habilitar la seguridad web utilizando las carácteristicas predefinidas de Spring Security, y personalizar la configuración de seguridad según las necesisades de tu aplicación. 
+* **{noop}** Informamos a Spring Security que la password no va encriptada. 
+
+[vídeo temario PART13](https://youtu.be/fNlQgJ6MWjs)
+[vídeo temario PART14](https://youtu.be/MtTc0SvG35Y)
+
+
+
+
+### Clase WebSecurityAdapter
+Es una clase importante de Spring Security que te permite personalizar la configuración de seguridad de una palicación web. Al extender esta clase y sobreescribir sus métodos, puedes definir reglas de seguridad específicas para las solicitudes HTTP entrantes, configurar el objeto AuthenticationManager y establecer otros aspectos de la seguridad de la aplicación. 
+
+
+
+
 
 
 

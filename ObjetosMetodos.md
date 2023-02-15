@@ -1,3 +1,4 @@
+
 # El objeto HttpServletRequest
 
 Un objeto **HttpServletRequest** proporciona acceso a los datos de cabecerar HTTP, también permite obtener los argumentos que el cliente envía como parte de la petición. 
@@ -85,3 +86,36 @@ En lugar de Model, inyectamos por parámetro un objeto de la clase **RedirectAtt
                 
                 return "redirect:/index";
         }
+
+### Clase WebSecurityAdapter
+Es una clase importante de Spring Security que te permite personalizar la configuración de seguridad de una palicación web. Al extender esta clase y sobreescribir sus métodos, puedes definir reglas de seguridad específicas para las solicitudes HTTP entrantes, configurar el objeto AuthenticationManager y establecer otros aspectos de la seguridad de la aplicación. 
+
+            @Configutarion
+            @EnableWebSecurity
+            public class DatSecurity extends WebSecurityConfigureAdapter{
+                 @Autowired
+                 Private DataSource dataSource;
+                 @Override
+                 protected void configure (AuthentcationManagerBuilder auth) throws Exceptions{
+                     auth.jdbcAuthentication().dataSource(dataSource);
+                 }
+            }
+            
+
+*  Esta clase puede estar dentro de un paquete principal, pero también podemos poner un paquete independiente para estas clases de configuración. 
+*  Está anotada con **@Configuration** y **@EneableWebSecurity**. 
+*  El nombre de la clase es inventado. 
+*  Hereda (extends) de la clase **WebSecurityConfigureAdapter** para la configuración de seguridad en la web. 
+*  La clase necesita un **dataSource**, clase necesaria para implementar una fuente de datos externa, generalmente, una base de datos.
+*  Necesita un método redefinido denominado **configure** y cuya estructura de método es como la que tienes en el código. 
+*  A través de la variable **auth** y el siguiente código *auth.jdbcAuthentication().dataSource(dataSource)*; le indicamos busque, de forma automática, las tablas 'USERS' y 'AUTHORITIES', en la base de datos que le hemos indicando en el fichero 'applicacitions.propierties'. 
+
+#### Objeto Authenticaión
+Proporciona una fomra de encapsular y manipular la información de autenticación del usuario en toda la aplicación. Esto permite la creación de reglas de seguridad personalizadas y la asignación de permisos para diferentes roles de usuario. 
+Métodos destacados: 
+* **getAuthorities()**: Devuelve una colección de objetos que representan los permisos otorgados del usuario. 
+* **getCredentials()**: Devuelve las credenciales de autenticación del usuario, como la contraseña, etc.
+* **getDetails()**:Devuelve cualquier información adicional sobre la autenticación del usuario.
+* **getPrincipal()**: Devuelve el objeto principal que representa la identidad del usuario.
+* **getAuthenticated()**: Devuelve 'true' si el usuario está autenticado correctamente, de los contrario devuelve false.
+
