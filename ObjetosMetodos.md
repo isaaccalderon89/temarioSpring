@@ -1,4 +1,4 @@
-
+![portada](https://images.unsplash.com/photo-1489875347897-49f64b51c1f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)
 # El objeto HttpServletRequest
 
 Un objeto **HttpServletRequest** proporciona acceso a los datos de cabecerar HTTP, también permite obtener los argumentos que el cliente envía como parte de la petición. 
@@ -110,7 +110,7 @@ Es una clase importante de Spring Security que te permite personalizar la config
 *  Necesita un método redefinido denominado **configure** y cuya estructura de método es como la que tienes en el código. 
 *  A través de la variable **auth** y el siguiente código *auth.jdbcAuthentication().dataSource(dataSource)*; le indicamos busque, de forma automática, las tablas 'USERS' y 'AUTHORITIES', en la base de datos que le hemos indicando en el fichero 'applicacitions.propierties'. 
 
-#### Objeto Authenticaión
+#### Objeto Authentication
 Proporciona una fomra de encapsular y manipular la información de autenticación del usuario en toda la aplicación. Esto permite la creación de reglas de seguridad personalizadas y la asignación de permisos para diferentes roles de usuario. 
 Métodos destacados: 
 * **getAuthorities()**: Devuelve una colección de objetos que representan los permisos otorgados del usuario. 
@@ -119,3 +119,25 @@ Métodos destacados:
 * **getPrincipal()**: Devuelve el objeto principal que representa la identidad del usuario.
 * **getAuthenticated()**: Devuelve 'true' si el usuario está autenticado correctamente, de los contrario devuelve false.
 
+### Clase HttpSecurity
+Permite a los desarrolladores configurar la autenticación de sus aplicaciones, así como definir reglas de acceso para la URL o métodos HTTP específicos.Permite especificar que puntos finales requieren autenticación, que métodos de autenticación se deben utilizar y que nivel de autorización se requiere para acceder a recursos específicos . 
+Contiene los siguientes métodos: 
+* **autorizeRequest()**: con este método se inicia la lista de recursos y URLs autorizadas.
+* **antMatchers()**: especificación del recurso o URL entre comillas y separados por comas que queremos autorizar. 
+* **permiteAll()**: indica que todos los recursos y URLs especificados por antMachers están permitidas sin autorización y, por tanto, no solicitan la llamada de la URL/Login que muestra en el navegador el formulario de login. 
+
+Autenicación de perfiles:
+* **antMatchers()**: especificación del recurso o URL entre comillas y separados por comas que queremos autorizar. 
+* **hasAnyAuthority()**: con este método se indica la lista del perfil, o perfiles autorizados a las URLs especificadas en antMatchers.  
+* **permiteAll()**: indica que todos los recursos y URLs especificados por antMachers están permitidas sin autorización y, por tanto, no solicitan la llamada de la URL/Login que muestra en el navegador el formulario de login. 
+
+Formulario login y resto de URLs:
+* **anyRequest()**: Cualquier otra petición no especificada hasta ahora. 
+* **aunthenticated()**: queda autenticada y, por tanto, saldrá el formulario de login, solicitando usuario y password. 
+
+Obtener ususario y perfil en mi proyecto:
+* **getName()**: devuelve el nombre del usuario que se ha autenticado.
+* **getAuthorities()**: que nos devuelve una lista de la clase **'GrantedAuthority'** para ver el perfil o perfiles de ese usuario. 
+
+### Clase BCryptPasswordEncoder
+Es una herramienta importante para asegurar que las contraseñas de los usuario se almacenen de forma segura y se puedan verificar de forma efectiva en aplicaciones de Spring Security.

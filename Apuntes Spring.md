@@ -239,9 +239,10 @@ Se puede trabajar de dos maneras:
 ### Clase WebSecurityAdapter
 Es una clase importante de Spring Security que te permite personalizar la configuración de seguridad de una palicación web. Al extender esta clase y sobreescribir sus métodos, puedes definir reglas de seguridad específicas para las solicitudes HTTP entrantes, configurar el objeto AuthenticationManager y establecer otros aspectos de la seguridad de la aplicación. 
 
+[vídeo temario PART15](https://youtu.be/zDgCBr9l0oA)
 
-
-
+### Clase BCryptPasswordEncoder
+Es una herramienta importante para asegurar que las contraseñas de los usuario se almacenen de forma segura y se puedan verificar de forma efectiva en aplicaciones de Spring Security. Implementa la interfaz **PasswordEncoder** y utiliza el método **BCrypt** para cifrar las contraseñas. 
 
 
 
